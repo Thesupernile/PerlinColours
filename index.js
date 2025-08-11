@@ -66,9 +66,39 @@ class PerlinNoiseGrid2D {
 
 }
 
-let perlinNoise = new PerlinNoiseGrid2D(10);
-for (let i = 0; i < 9; i += 0.1){
-    for (let j = 0; i < 9; i += 0.1){
-        console.log(perlinNoise.calculatePerlin(i, j));
+const canvas = document.getElementById("perlinTestCanvas");
+const ctx = canvas.getContext("2d");
+
+function testPerlin(){
+    let perlinNoise = new PerlinNoiseGrid2D(10);
+    let scaleIncrement = 127.5;
+
+    for (let i = 0; i < 9; i += 0.1){
+        for (let j = 0; j < 9; j += 0.1){
+            let perlinValue = perlinNoise.calculatePerlin(i, j);
+            console.log(perlinValue);
+            let colourValue = scaleIncrement + scaleIncrement * perlinValue;
+            ctx.fillStyle = `rgb(${colourValue}, ${colourValue}, ${colourValue})`;
+            ctx.fillRect(i * 100, j * 100, 10, 10);
+        }
     }
 }
+
+function canvasClear(){
+  // Clear Canvas
+  ctx.fillStyle = "rgba(222, 230, 246, 1)";
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function resizePage() {
+  canvas.width = window.innerWidth * 0.9;
+  canvas.height = window.innerHeight * 0.8;
+  
+  testPerlin();
+}
+
+window.onload = window.onresize = function () {
+  resizePage();
+};
