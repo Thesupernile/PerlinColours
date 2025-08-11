@@ -21,9 +21,10 @@ class PerlinNoiseGrid2D {
     }
 
     incrementGrid(increment){
-        for (row of this.grid){
-            for (angle of row){
-                angle += increment;
+        for (let i = 0; i < this.grid.length; i++){
+            for (let j = 0; j < this.grid[i].length; j++){
+                this.grid[i][j] += increment;
+                this.grid[i][j] = this.grid[i][j] % 360;
             }
         }
     }
@@ -39,8 +40,8 @@ class PerlinNoiseGrid2D {
         for (const [pointX, pointY] of points){
             const angle = this.grid[pointY][pointX];
             // Calculate the distances to the required points
-            const XDist = Math.abs((x - gridX) - (pointX - gridX));
-            const YDist = Math.abs((y - gridY) - (pointY - gridY));
+            const XDist = (pointX - gridX) - (x - gridX);
+            const YDist = (pointY - gridY) - (y - gridY);
 
             // Calculate the dot product
             let pointValue = XDist * Math.cos(angle) + YDist * Math.sin(angle);
@@ -68,18 +69,39 @@ class PerlinNoiseGrid2D {
 
 const canvas = document.getElementById("perlinTestCanvas");
 const ctx = canvas.getContext("2d");
+let perlinNoise = new PerlinNoiseGrid2D(10);
 
 function testPerlin(){
-    let perlinNoise = new PerlinNoiseGrid2D(10);
-    let scaleIncrement = 127.5;
+    let colour1R = document.getElementById("colour1R").value;
+    let colour1G = document.getElementById("colour1G").value;
+    let colour1B = document.getElementById("colour1B").value;
 
-    for (let i = 0; i < 9; i += 0.1){
-        for (let j = 0; j < 9; j += 0.1){
-            let perlinValue = perlinNoise.calculatePerlin(i, j);
+    let colour2R = document.getElementById("colour2R").value;
+    let colour2G = document.getElementById("colour2G").value;
+    let colour2B = document.getElementById("colour2B").value;
+
+    let midPointR = (colour1R + colour1R) / 2;
+    let midPointG = (colour1G + colour1G) / 2;
+    let midPointB = (colour1B + colour1B) / 2;
+
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const scaleIncrementR = (colour1R - colour2R)/2;
+    const scaleIncrementG = (colour1G - colour2G)/2;
+    const scaleIncrementB = (colour1B - colour2B)/2;
+    const pixelIncrement = 0.05;
+
+
+    for (let i = 0; i < 9; i += pixelIncrement){
+        for (let j = 0; j < 9; j += pixelIncrement){
+            let perlinValue = perlinNoise.calculatePerlin(j, i);
             console.log(perlinValue);
-            let colourValue = scaleIncrement + scaleIncrement * perlinValue;
-            ctx.fillStyle = `rgb(${colourValue}, ${colourValue}, ${colourValue})`;
-            ctx.fillRect(i * 100, j * 100, 10, 10);
+            let colourValueR = scaleIncrementR + (scaleIncrementR * perlinValue) + colour2R;
+            let colourValueG = scaleIncrementG + (scaleIncrementG * perlinValue) + colour2G;
+            let colourValueB = scaleIncrementB + (scaleIncrementB * perlinValue) + colour2B;
+
+            ctx.fillStyle = `rgb(${colourValueR}, ${colourValueG}, ${colourValueB})`;
+            ctx.fillRect(j * (10/pixelIncrement), i * (10/pixelIncrement), 10, 10); 
         }
     }
 }
@@ -92,13 +114,20 @@ function canvasClear(){
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function updateCanvas(){
+    // Currently non-functional
+    perlinNoise.incrementGrid();
+    testPerlin();
+    setTimeout(updateCanvas, 1000);
+}
+
 function resizePage() {
-  canvas.width = window.innerWidth * 0.9;
-  canvas.height = window.innerHeight * 0.8;
+  canvas.width = window.innerWidth * 0.99;
+  canvas.height = window.innerHeight * 0.90;
   
   testPerlin();
 }
 
 window.onload = window.onresize = function () {
-  resizePage();
+    resizePage();
 };
