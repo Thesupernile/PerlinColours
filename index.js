@@ -69,16 +69,16 @@ class PerlinNoiseGrid2D {
 
 const canvas = document.getElementById("perlinTestCanvas");
 const ctx = canvas.getContext("2d");
-let perlinNoise = new PerlinNoiseGrid2D(10);
 
 function testPerlin(){
+    let perlinNoise = new PerlinNoiseGrid2D(10);
     let colour1R = document.getElementById("colour1R").value;
     let colour1G = document.getElementById("colour1G").value;
     let colour1B = document.getElementById("colour1B").value;
 
-    let colour2R = document.getElementById("colour2R").value;
-    let colour2G = document.getElementById("colour2G").value;
-    let colour2B = document.getElementById("colour2B").value;
+    let colour2R = 0;
+    let colour2G = 0;
+    let colour2B = 0;
 
     let midPointR = (colour1R + colour1R) / 2;
     let midPointG = (colour1G + colour1G) / 2;
