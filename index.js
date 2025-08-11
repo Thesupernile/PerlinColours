@@ -17,6 +17,15 @@ class PerlinNoiseGrid2D {
             }
             grid.push(row);
         }
+        this.grid = grid;
+    }
+
+    incrementGrid(increment){
+        for (row of this.grid){
+            for (angle of row){
+                angle += increment;
+            }
+        }
     }
 
     calculatePerlin(x, y){
@@ -28,7 +37,7 @@ class PerlinNoiseGrid2D {
         let pointValues = [];
 
         for (point[pointX, pointY] of points){
-            const angle = grid[pointY][pointX];
+            const angle = this.grid[pointY][pointX];
             // Calculate the distances to the required points
             const XDist = Math.abs((x - gridX) - (pointX - gridX));
             const YDist = Math.abs((y - gridY) - (pointY - gridY));
