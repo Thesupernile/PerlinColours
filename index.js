@@ -36,7 +36,7 @@ class PerlinNoiseGrid2D {
         let points = [[gridX, gridY], [gridX + 1, gridY], [gridX, gridY + 1], [gridX + 1, gridY + 1]];
         let pointValues = [];
 
-        for (point[pointX, pointY] of points){
+        for (const [pointX, pointY] of points){
             const angle = this.grid[pointY][pointX];
             // Calculate the distances to the required points
             const XDist = Math.abs((x - gridX) - (pointX - gridX));
@@ -51,14 +51,14 @@ class PerlinNoiseGrid2D {
         // Interpolation
 
         // Find what percent along the X axis we are
-        let XPercent = (x - gridX) * 100;
+        let XPercent = (x - gridX);
         let semiInterpolatedValues = [];
         for (let i = 0; i < pointValues.length; i += 2){
             let semiInterpolatedValue = (1 - XPercent) * pointValues[i] + XPercent * pointValues[i + 1];
-            semiInterpolatedValue.push(semiInterpolatedValue);
+            semiInterpolatedValues.push(semiInterpolatedValue);
         }
 
-        let YPercent = (y - gridY) * 100;
+        let YPercent = (y - gridY);
         let finalValue = (1 - YPercent) * semiInterpolatedValues[0] + YPercent * semiInterpolatedValues[1];
 
         return finalValue;
@@ -67,3 +67,8 @@ class PerlinNoiseGrid2D {
 }
 
 let perlinNoise = new PerlinNoiseGrid2D(10);
+for (let i = 0; i < 9; i += 0.1){
+    for (let j = 0; i < 9; i += 0.1){
+        console.log(perlinNoise.calculatePerlin(i, j));
+    }
+}
