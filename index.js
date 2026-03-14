@@ -69,39 +69,45 @@ class PerlinNoiseGrid2D {
 
 const canvas = document.getElementById("perlinTestCanvas");
 const ctx = canvas.getContext("2d");
+const GRIDSIZE = 10;
+const PIXELSPERSQUARE = 50;
 
 function testPerlin(){
-    let perlinNoise = new PerlinNoiseGrid2D(10);
-    let colour1R = document.getElementById("colour1R").value;
-    let colour1G = document.getElementById("colour1G").value;
-    let colour1B = document.getElementById("colour1B").value;
+    let perlinNoise = new PerlinNoiseGrid2D(GRIDSIZE);
+    // Get the fist colour
+    let colour1R = parseInt(document.getElementById("colour1R").value);
+    let colour1G = parseInt(document.getElementById("colour1G").value);
+    let colour1B = parseInt(document.getElementById("colour1B").value);
 
-    let colour2R = 0;
-    let colour2G = 0;
-    let colour2B = 0;
+    // Get the second colour
+    let colour2R = parseInt(document.getElementById("colour2R").value);
+    let colour2G = parseInt(document.getElementById("colour2G").value);
+    let colour2B = parseInt(document.getElementById("colour2B").value);
 
-    let midPointR = (colour1R + colour1R) / 2;
-    let midPointG = (colour1G + colour1G) / 2;
-    let midPointB = (colour1B + colour1B) / 2;
+    // Find the midpoints of the colours
+    let midPointR = (colour1R + colour2R) / 2;
+    let midPointG = (colour1G + colour2G) / 2;
+    let midPointB = (colour1B + colour2B) / 2;
 
 
+    // Calculate what "one" unit of change is (since perlin noise is from -1 to 1 this is half the difference of the two colour values)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const scaleIncrementR = (colour1R - colour2R)/2;
     const scaleIncrementG = (colour1G - colour2G)/2;
     const scaleIncrementB = (colour1B - colour2B)/2;
-    const pixelIncrement = 0.05;
+    const pixelIncrement = 1/PIXELSPERSQUARE;
 
 
-    for (let i = 0; i < 9; i += pixelIncrement){
-        for (let j = 0; j < 9; j += pixelIncrement){
+    // Draw the perlin noise gradient
+    for (let i = 0; i < GRIDSIZE-1; i += pixelIncrement){
+        for (let j = 0; j < GRIDSIZE-1; j += pixelIncrement){
             let perlinValue = perlinNoise.calculatePerlin(j, i);
-            console.log(perlinValue);
             let colourValueR = scaleIncrementR + (scaleIncrementR * perlinValue) + colour2R;
             let colourValueG = scaleIncrementG + (scaleIncrementG * perlinValue) + colour2G;
             let colourValueB = scaleIncrementB + (scaleIncrementB * perlinValue) + colour2B;
 
             ctx.fillStyle = `rgb(${colourValueR}, ${colourValueG}, ${colourValueB})`;
-            ctx.fillRect(j * (10/pixelIncrement), i * (10/pixelIncrement), 10, 10); 
+            ctx.fillRect(j * (GRIDSIZE/pixelIncrement), i * (GRIDSIZE/pixelIncrement), canvas.width/(GRIDSIZE/PIXELSPERSQUARE), canvas.height/(GRIDSIZE/PIXELSPERSQUARE)); 
         }
     }
 }

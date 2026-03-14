@@ -1,6 +1,6 @@
 # Overview
 This program creates a gradient for you using perlin noise
-Simply enter a background colour and see a gradient created between the colour you entered and black
+Simply enter a two colours and see a gradient created between the two colours that you entered
 
 # How to use
 * First go to: https://thesupernile.github.io/PerlinColours/
@@ -10,5 +10,12 @@ Simply enter a background colour and see a gradient created between the colour y
 
 # Screenshots
 
-![Screenshot of program](image.png)
-Screenshot of main page showing a generated perlin gradient
+The following three images show different gradients generated using this tool:
+
+![DeepSeaGradient](Screenshots\DeepSeaGradient.png)
+
+
+![SkyGradient](Screenshots\SkyGradient.png)
+
+
+![TwilightGradient](Screenshots\TwilightGradient.png)
