@@ -12,10 +12,10 @@ Simply enter a two colours and see a gradient created between the two colours th
 
 The following three images show different gradients generated using this tool:
 
-![DeepSeaGradient](Screenshots\DeepSeaGradient.png)
+![DeepSeaGradient](Screenshots/DeepSeaGradient.png)
 
 
-![SkyGradient](Screenshots\SkyGradient.png)
+![SkyGradient](Screenshots/SkyGradient.png)
 
 
-![TwilightGradient](Screenshots\TwilightGradient.png)
+![TwilightGradient](Screenshots/TwilightGradient.png)
