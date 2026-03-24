@@ -4,7 +4,7 @@ Simply enter a two colours and see a gradient created between the two colours th
 
 # How to use
 * First go to: https://thesupernile.github.io/PerlinColours/
-* Then fill out the three boxes. These are the RGB of the colour in your gradient!
+* Then fill out the two pairs of three boxes. These are the RGB of the colour in your gradient!
 * Click recalculate gradient and see the final result!
 
 
